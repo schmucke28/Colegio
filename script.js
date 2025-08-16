@@ -7,7 +7,7 @@ window.addEventListener('load', function() {
     }, 500);
 });
 
-// Efecto scroll suave para enlaces
+// Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -18,45 +18,124 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
             window.scrollTo({
-                top: targetElement.offsetTop - 80,
+                top: targetElement.offsetTop - 100,
                 behavior: 'smooth'
             });
         }
     });
 });
 
-// Animación al hacer scroll
-const animateOnScroll = function() {
-    const elements = document.querySelectorAll('.noticia, .testimonio, .contacto-form');
+// Scroll animations
+function animateOnScroll() {
+    const elements = document.querySelectorAll('.noticia-card, .testimonio, .contacto-form');
+    const windowHeight = window.innerHeight;
     
     elements.forEach(element => {
         const elementPosition = element.getBoundingClientRect().top;
-        const screenPosition = window.innerHeight / 1.3;
+        const animationPoint = windowHeight * 0.8;
         
-        if (elementPosition < screenPosition) {
+        if (elementPosition < animationPoint) {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0)';
         }
     });
-};
+}
 
-// Configuración inicial para elementos animados
-document.querySelectorAll('.noticia, .testimonio, .contacto-form').forEach(element => {
+// Initialize elements
+document.querySelectorAll('.noticia-card, .testimonio, .contacto-form').forEach(element => {
     element.style.opacity = '0';
-    element.style.transform = 'translateY(20px)';
-    element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    element.style.transform = 'translateY(30px)';
+    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
 });
 
+// Listeners
 window.addEventListener('scroll', animateOnScroll);
-// Ejecutar una vez al cargar la página
-animateOnScroll();
+window.addEventListener('load', animateOnScroll);
 
-// Formulario de contacto (simulado)
-const form = document.querySelector('.contacto-form');
-if (form) {
-    form.addEventListener('submit', function(e) {
+// Form submission
+const contactForm = document.querySelector('.contacto-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        alert('Gracias por su mensaje. Nos pondremos en contacto pronto.');
-        form.reset();
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+        
+        setTimeout(() => {
+            submitBtn.textContent = '✓ Enviado';
+            setTimeout(() => {
+                submitBtn.textContent = 'Enviar';
+                submitBtn.disabled = false;
+                contactForm.reset();
+            }, 2000);
+        }, 1500);
     });
 }
+
+// Current year in footer
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
+// ======================================
+// SLIDER HERO
+// ======================================
+function initSlider() {
+    const slides = document.querySelectorAll('.slide');
+    const indicators = document.querySelectorAll('.indicator');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    let currentIndex = 0;
+    let autoSlideInterval;
+
+    // Cambiar slide
+    const goToSlide = (index) => {
+        slides.forEach(slide => slide.classList.remove('active'));
+        indicators.forEach(ind => ind.classList.remove('active'));
+        
+        currentIndex = (index + slides.length) % slides.length;
+        slides[currentIndex].classList.add('active');
+        indicators[currentIndex].classList.add('active');
+    };
+
+    // Auto-avance cada 5 segundos
+    const startAutoSlide = () => {
+        autoSlideInterval = setInterval(() => {
+            goToSlide(currentIndex + 1);
+        }, 5000);
+    };
+
+    // Eventos
+    nextBtn.addEventListener('click', () => {
+        clearInterval(autoSlideInterval);
+        goToSlide(currentIndex + 1);
+        startAutoSlide();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        clearInterval(autoSlideInterval);
+        goToSlide(currentIndex - 1);
+        startAutoSlide();
+    });
+
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            clearInterval(autoSlideInterval);
+            goToSlide(index);
+            startAutoSlide();
+        });
+    });
+
+    // Iniciar
+    startAutoSlide();
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', initSlider);
+
+// Agrega al final de script.js
+setTimeout(() => {
+    const notif = document.createElement('div');
+    notif.innerHTML = '¿Necesitas ayuda? <i class="fab fa-whatsapp"></i> Escríbenos';
+    notif.style.cssText = `/* estilos aquí */`;
+    document.body.appendChild(notif);
+}, 10000);

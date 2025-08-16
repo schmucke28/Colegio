@@ -9,90 +9,172 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <!-- Preloader -->
     <div class="preloader">
         <div class="spinner"></div>
     </div>
 
-    <header>
-        <div class="logo">
-            <img src="img/logo.png" alt="Logo del Colegio">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="academico.html">Académico</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section class="hero">
-            <h1>Bienvenidos al Divino Maestro</h1>
-            <p>Educación de excelencia para el futuro</p>
-            <a href="#contacto" class="cta-btn">¡Contáctanos!</a>
-        </section>
-
-        <section class="container">
-            <h2>Últimas Noticias</h2>
-            <div class="noticia">
-                <h3>Aniversario 30 años</h3>
-                <p>Celebramos tres décadas formando líderes del mañana.</p>
-                <p class="noticia-autor">Publicado: 15 de Agosto, 2025</p>
+    <!-- Barra superior -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="contact-info">
+                <span><i class="fas fa-map-marker-alt"></i> Av. Principal 123, Lima</span>
+                <span><i class="fas fa-phone"></i> (01) 456-7890</span>
             </div>
-            <div class="noticia">
-                <h3>Nuevo laboratorio de ciencias</h3>
-                <p>Inauguramos modernas instalaciones para prácticas científicas.</p>
-                <p class="noticia-autor">Publicado: 10 de Agosto, 2025</p>
-            </div>
-        </section>
-
-        <section class="testimonios">
-            <h2>Lo que dicen nuestros padres</h2>
-            <div class="testimonio-container">
-                <div class="testimonio">
-                    <p>"Mi hijo ha mejorado notablemente en su rendimiento académico desde que ingresó al Divino Maestro."</p>
-                    <span>- María Pérez</span>
-                </div>
-                <div class="testimonio">
-                    <p>"Excelente nivel educativo y atención personalizada a los estudiantes."</p>
-                    <span>- Juan González</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="contacto" class="contacto">
-            <h2>Contacto</h2>
-           <form class="contacto-form" action="https://formsubmit.co/schmucke2002@gmail.com" method="POST">
-            <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="tel" name="telefono" placeholder="Teléfono">
-            <textarea name="mensaje" placeholder="Mensaje" required></textarea>
-            <input type="hidden" name="_next" value="https://tudominio.com/gracias.html">
-            <input type="hidden" name="_captcha" value="false">
-            <button type="submit">Enviar</button>
-</form>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <h3>Divino Maestro</h3>
-                <p>Dirección: Av. Principal 123, Lima</p>
-                <p>Teléfono: (01) 456-7890</p>
-                <p>Email: info@divinomaestro.edu.pe</p>
-            </div>
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-facebook"></i></a>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
-        <p class="copyright">&copy; 2025 Colegio Divino Maestro. Todos los derechos reservados.</p>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo del Colegio">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="academico.html">Académico</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <section class="hero-slider">
+        <div class="slider-container">
+            <!-- Slide 1 -->
+            <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('img/slider/slide1.jpg');">
+                <div class="slide-content">
+                    <h1>Bienvenidos al Divino Maestro</h1>
+                    <p>30 años formando líderes con excelencia educativa</p>
+                    <div class="hero-buttons">
+                        <a href="#admision" class="cta-btn">Admisión 2025</a>
+                        <a href="#tour" class="cta-btn secondary">Tour Virtual</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('img/slider/slide2.jpg');">
+                <div class="slide-content">
+                    <h1>Educación Integral</h1>
+                    <p>Formación académica y en valores para el futuro</p>
+                    <div class="hero-buttons">
+                        <a href="#metodologia" class="cta-btn">Nuestra Métodología</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('img/slider/slide3.jpg');">
+                <div class="slide-content">
+                    <h1>Infraestructura Moderna</h1>
+                    <p>Ambientes diseñados para el aprendizaje del siglo XXI</p>
+                    <div class="hero-buttons">
+                        <a href="#instalaciones" class="cta-btn">Ver Instalaciones</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Controles -->
+        <button class="slider-control prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-control next"><i class="fas fa-chevron-right"></i></button>
+        
+        <!-- Indicadores -->
+        <div class="slider-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Noticias -->
+    <section class="noticias-section">
+        <div class="container">
+            <h2 class="section-title">Últimas Noticias</h2>
+            <div class="noticia-grid">
+                <article class="noticia-card">
+                    <div class="noticia-img">
+                        <img src="img/noticias/aniversario.jpg" alt="30 aniversario">
+                        <span class="noticia-fecha">15 Ago 2025</span>
+                    </div>
+                    <div class="noticia-content">
+                        <h3>Aniversario 30 años</h3>
+                        <p>Celebramos tres décadas formando líderes del mañana con eventos especiales toda la semana.</p>
+                        <a href="#" class="btn-ver-mas">Ver galería <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="noticia-card">
+                    <div class="noticia-img">
+                        <img src="img/noticias/aniversario.jpg" alt="Laboratorio de ciencias">
+                        <span class="noticia-fecha">10 Ago 2025</span>
+                    </div>
+                    <div class="noticia-content">
+                        <h3>Nuevo laboratorio de ciencias</h3>
+                        <p>Inauguramos modernas instalaciones equipadas con tecnología de última generación.</p>
+                        <a href="#" class="btn-ver-mas">Conoce más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mapa -->
+    <section class="mapa-section">
+        <div class="container">
+            <h2 class="section-title">Nuestra Ubicación</h2>
+            <div class="mapa-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.1234567890123!2d-76.987654321!3d-12.123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDA3JzI0LjUiUyA3NsKwNTknMTYuNiJX!5e0!3m2!1ses!2spe!4v1234567890123!5m2!1ses!2spe" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <div class="mapa-info">
+                    <h3>Horario de atención</h3>
+                    <p>Lunes a Viernes: 7:30 am - 4:30 pm</p>
+                    <p>Sábados: 8:00 am - 1:00 pm</p>
+                    <a href="https://wa.me/51960382052" class="whatsapp-link" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Escríbenos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="img/logo.png" alt="Logo" class="footer-logo">
+                    <p>Institución Educativa Privada Divino Maestro - Formando líderes desde 1995</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Enlaces rápidos</h3>
+                    <ul>
+                        <li><a href="#">Admisión</a></li>
+                        <li><a href="#">Pagos en línea</a></li>
+                        <li><a href="#">Biblioteca virtual</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-envelope"></i> info@divinomaestro.edu.pe</p>
+                    <p><i class="fas fa-phone"></i> (01) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Colegio Divino Maestro. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </footer>
 
+    <!-- Botón WhatsApp -->
     <a href="https://wa.me/51960382052" class="whatsapp-btn" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
