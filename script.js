@@ -4,6 +4,8 @@ window.addEventListener('load', function() {
     preloader.style.opacity = '0';
     setTimeout(() => {
         preloader.style.display = 'none';
+        // Forzar la animación de las noticias después de que el preloader desaparezca
+        animateOnScroll();
     }, 500);
 });
 
@@ -17,26 +19,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-            const offset = window.innerWidth < 768 ? 80 : 100; // Ajuste responsivo del offset
+            const offset = window.innerWidth < 768 ? 80 : 100;
             window.scrollTo({
                 top: targetElement.offsetTop - offset,
                 behavior: 'smooth'
             });
-            
-            // Cerrar menú móvil si está abierto
-            const mobileMenu = document.querySelector('.mobile-menu');
-            if (mobileMenu && mobileMenu.classList.contains('active')) {
-                toggleMobileMenu();
-            }
         }
     });
 });
 
 // Scroll animations
 function animateOnScroll() {
-    const elements = document.querySelectorAll('.noticia-card, .testimonio, .contacto-form');
+    const elements = document.querySelectorAll('.noticia-card');
     const windowHeight = window.innerHeight;
-    const animationPoint = windowHeight * (window.innerWidth < 768 ? 0.75 : 0.8); // Ajuste responsivo
+    const animationPoint = windowHeight * (window.innerWidth < 768 ? 0.75 : 0.8);
     
     elements.forEach(element => {
         const elementPosition = element.getBoundingClientRect().top;
@@ -49,12 +45,22 @@ function animateOnScroll() {
 }
 
 // Initialize animated elements
-document.querySelectorAll('.noticia-card, .testimonio, .contacto-form').forEach(element => {
-    const translateY = window.innerWidth < 768 ? '20px' : '30px'; // Menos movimiento para móviles
-    element.style.opacity = '0';
-    element.style.transform = `translateY(${translateY})`;
-    element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-});
+function initAnimations() {
+    const elements = document.querySelectorAll('.noticia-card');
+    const translateY = window.innerWidth < 768 ? '20px' : '30px';
+    
+    elements.forEach(element => {
+        // Solo inicializar si no ha sido inicializado antes
+        if (element.style.opacity === '') {
+            element.style.opacity = '0';
+            element.style.transform = `translateY(${translateY})`;
+            element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        }
+    });
+    
+    // Forzar una primera comprobación
+    animateOnScroll();
+}
 
 // Form submission handler
 const contactForm = document.querySelector('.contacto-form');
@@ -66,7 +72,6 @@ if (contactForm) {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Enviando...';
         
-        // Simulación de envío (reemplazar con AJAX real)
         setTimeout(() => {
             submitBtn.textContent = '✓ Enviado';
             setTimeout(() => {
@@ -81,23 +86,16 @@ if (contactForm) {
 // Current year in footer
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
-// ======================================
-// SLIDER HERO CON SOPORTE PARA TÁCTIL
-// ======================================
+// SLIDER HERO
 function initSlider() {
     const slides = document.querySelectorAll('.slide');
     const indicators = document.querySelectorAll('.indicator');
     const prevBtn = document.querySelector('.prev');
     const nextBtn = document.querySelector('.next');
-    const sliderContainer = document.querySelector('.slider-container');
     let currentIndex = 0;
     let autoSlideInterval;
     let isTouchDevice = 'ontouchstart' in window;
-    let touchStartX = 0;
-    let touchEndX = 0;
-    let isDragging = false;
 
-    // Cambiar slide con transición suave
     const goToSlide = (index) => {
         slides.forEach(slide => {
             slide.style.transition = 'opacity 1s ease-in-out';
@@ -109,11 +107,9 @@ function initSlider() {
         slides[currentIndex].classList.add('active');
         indicators[currentIndex].classList.add('active');
         
-        // Reiniciar temporizador de auto-slide
         resetAutoSlide();
     };
 
-    // Auto-avance cada 5 segundos (solo en desktop)
     const startAutoSlide = () => {
         if (!isTouchDevice) {
             autoSlideInterval = setInterval(() => {
@@ -127,7 +123,6 @@ function initSlider() {
         startAutoSlide();
     };
 
-    // Eventos de botones
     nextBtn.addEventListener('click', () => {
         goToSlide(currentIndex + 1);
     });
@@ -136,71 +131,52 @@ function initSlider() {
         goToSlide(currentIndex - 1);
     });
 
-    // Eventos táctiles para móviles
     if (isTouchDevice) {
-        sliderContainer.addEventListener('touchstart', (e) => {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.querySelector('.slider-container').addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
-            isDragging = true;
             clearInterval(autoSlideInterval);
         }, { passive: true });
 
-        sliderContainer.addEventListener('touchmove', (e) => {
-            if (isDragging) {
-                touchEndX = e.changedTouches[0].screenX;
-            }
-        }, { passive: true });
-
-        sliderContainer.addEventListener('touchend', () => {
-            if (isDragging) {
-                handleSwipe();
-                isDragging = false;
-            }
+        document.querySelector('.slider-container').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
         }, { passive: true });
 
         const handleSwipe = () => {
-            const threshold = 50; // Mínimo desplazamiento para considerar swipe
+            const threshold = 50;
             const diff = touchEndX - touchStartX;
 
             if (Math.abs(diff) > threshold) {
-                if (diff < 0) { // Swipe izquierda
+                if (diff < 0) {
                     goToSlide(currentIndex + 1);
-                } else { // Swipe derecha
+                } else {
                     goToSlide(currentIndex - 1);
                 }
             }
         };
     }
 
-    // Eventos de indicadores
     indicators.forEach((indicator, index) => {
         indicator.addEventListener('click', () => {
             goToSlide(index);
         });
     });
 
-    // Pausar auto-slide al hacer hover (solo desktop)
-    if (!isTouchDevice) {
-        sliderContainer.addEventListener('mouseenter', () => {
-            clearInterval(autoSlideInterval);
-        });
-
-        sliderContainer.addEventListener('mouseleave', () => {
-            startAutoSlide();
-        });
-    }
-
-    // Iniciar
     startAutoSlide();
 }
 
-// Inicializar cuando el DOM esté listo
+// Inicialización cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
     initSlider();
+    initAnimations(); // Inicializar animaciones de noticias
     
-    // Inicializar animaciones al cargar
-    animateOnScroll();
+    // Configurar listeners de scroll
+    window.addEventListener('scroll', animateOnScroll);
     
-    // Configurar notificación de WhatsApp (opcional)
+    // Configurar notificación de WhatsApp
     setTimeout(() => {
         if (!document.querySelector('.whatsapp-notif')) {
             const notif = document.createElement('div');
@@ -227,7 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             document.body.appendChild(notif);
             
-            // Auto-ocultar después de 10 segundos
             setTimeout(() => {
                 notif.style.animation = 'fadeOut 0.5s ease';
                 setTimeout(() => {
@@ -238,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 10000);
 });
 
-// Añadir estilos para animaciones de notificación
+// Añadir estilos para animaciones
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeIn {
